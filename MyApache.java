@@ -5,143 +5,101 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
 
+import org.apache.log4j.Logger;
+
 /**
  * @packageName: myApache
  * @className: myApache
- * @Description: 自实现web服务器
+ * @Description: ��ʵ��web������
  * @author: auko
  * @data 2019-09-27 8:46
  */
 public class MyApache {
-    public static void sop(Object obj) {
-        System.out.println(obj);
-    }
-
-    Socket socket;
-    static List<Socket> list = new ArrayList<>();
-    static List<OutputStream> opsList = new ArrayList<OutputStream>();
-    static List<DataOutputStream> dosList = new ArrayList<DataOutputStream>();
-    static String rootUrl;
-    static int port;
+    private String rootUrl;
+    private int port;
 
     public static void main(String argv[]) {
-        try {
-            ServerSocket serversocket = new ServerSocket(port);
-            System.out.println("服务器启动...");
-            init();
-            send();
-            while (true) {
-                Socket socket = serversocket.accept();
-                sop(socket.getRemoteSocketAddress());
-                // 没接收到一个socket, 就新开一个receive线程和增加一个对应的输出流
-                list.add(socket);
-                OutputStream os = socket.getOutputStream();
-                DataOutputStream dos = new DataOutputStream(os);
-//                opsList.add(os);
-                dosList.add(dos);
-                MyApache server = new MyApache(socket);
-            }
-        } catch (RuntimeException e) {
-            sop(e.getMessage());
-        } catch (IOException e) {
-            sop(e.getMessage());
-        }
-
+        MyApache apache = new MyApache();
+        apache.start();
     }
 
-    public MyApache(Socket socket) {
-        this.socket = socket;
-        receive();
+    public Logger logger = new MyLogger(MyApache.class).logger;
+
+    public MyApache() {
+        init();
     }
 
     /**
      * @Param: []
      * @Return: void
      * @Author: auko on 2019-09-27 9:51
-     * @Description: 读取配置文件
+     * @Description: ��ȡ�����ļ�
      */
-    public static void init() {
+    public void init() {
         try (
-                FileInputStream fis = new FileInputStream("E:\\project\\java\\practice\\src\\myApache\\MyApache")
+                FileInputStream fis = new FileInputStream("src/myApache/conf/MyApache.properties")
         ) {
             Properties pps = new Properties();
             pps.load(fis);
-            sop("读取配置文件...");
+            logger.info("read configuration");
             rootUrl = pps.getProperty("root");
             port = Integer.parseInt(pps.getProperty("port"));
+            if (rootUrl == null || port == 0) {
+                logger.error("read MyApache configuration exception");
+            }
 
         } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            logger.error("can not find file MyApache.conf");
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("IOException : " + e.getMessage());
         }
 
     }
 
+
     /**
      * @Param: []
      * @Return: void
-     * @Author: auko on 2019-09-25 22:54
-     * @Description: 服务器接收客户端信息
+     * @Author: auko on 2019-10-09 8:35
+     * @Description: ����������, �ȴ�����
      */
-    public void receive() {
+    public void start() {
+        try {
+            ServerSocket serversocket = new ServerSocket(port);
+            logger.info("Server started");
+            while (true) {
+                Socket socket = serversocket.accept();
+                // new thread �����ͻ�����
+                service(socket);
+            }
+        } catch (RuntimeException e) {
+            logger.warn("RuntimeException : " + e.getMessage());
+        } catch (IOException e) {
+            logger.error("IOException : " + e.getMessage());
+        }
+    }
+
+
+    /**
+     * @Param: [socket]
+     * @Return: void
+     * @Author: auko on 2019-10-09 12:05
+     * @Description: �����ͻ�������
+     */
+    public void service(Socket socket) {
         new Thread(() -> {
             try (
                     InputStream ins = socket.getInputStream();
-                    DataInputStream dins = new DataInputStream(ins);
+                    OutputStream out = socket.getOutputStream();
             ) {
-                while (true) {
-                    String msg = dins.readUTF();
-                    System.out.println(msg);
-                    // 根据当前线程名, 来区分不同客户端
-                    int item = Integer.parseInt(Thread.currentThread().getName().split("-")[1]);
-                    transfer(msg, item);
-                }
+                logger.trace("receive socket : " + socket.getRemoteSocketAddress());
+                Request req = new Request(ins);
+                Response res = new Response(out);
+
+                Handler handler = new Handler(req, res, rootUrl);
+                handler.requestHandler();
             } catch (IOException e) {
                 throw new RuntimeException(e);
-            }
-        }).start();
-    }
-
-
-    /**
-     * @Param: [msg, index]
-     * @Return: void
-     * @Author: auko on 2019-09-25 22:58
-     * @Description: 服务端接收到信息后转发给各客户端
-     */
-    public static void transfer(String msg, int index) {
-        // 转发时不发送给自己
-        for (int i = 0; i < dosList.size(); i++) {
-            try {
-                if ((i + 1) != index) {
-                    dosList.get(i).writeUTF(msg);
-                }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
-
-    /**
-     * @Param: []
-     * @Return: void
-     * @Author: auko on 2019-09-25 22:58
-     * @Description: 服务端广播给各个客户端
-     */
-    public static void send() {
-        new Thread(() -> {
-            Scanner scan = new Scanner(System.in);
-            while (true) {
-                System.out.println("服务器广播 : ");
-                String msg = scan.nextLine();
-                for (int i = 0; i < dosList.size(); i++) {
-                    try {
-                        dosList.get(i).writeUTF("服务器广播 : " + msg);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
             }
         }).start();
     }
