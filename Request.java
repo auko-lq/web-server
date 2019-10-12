@@ -1,15 +1,13 @@
-package myApache;
+package myServer;
 
 
 import org.apache.log4j.Logger;
-
-import java.util.logging.Level;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * @packageName: myApache
+ * @packageName: myServer
  * @className: Request
  * @Description:
  * @author: auko
@@ -38,6 +36,9 @@ public class Request {
 
     // 请求uri
     private String uri;
+
+    // 请求是否有效
+    private boolean requestIsValid = true;
 
     /**
      * @Param: []
@@ -79,6 +80,23 @@ public class Request {
         this.uri = uri;
     }
 
+
+    /**
+     * @Param: []
+     * @Return: boolean
+     * @Author: auko on 2019-10-11 18:16
+     * @Description: 获取请求是否有效
+     */
+    public boolean getRequestValid(){ return requestIsValid;}
+
+    /**
+     * @Param: [isValid]
+     * @Return: boolean
+     * @Author: auko on 2019-10-11 18:17
+     * @Description: 设置该请求是否有效
+     */
+    public void setRequestValid(boolean isValid){this.requestIsValid = isValid;}
+
     /**
      * @Param: [ins]
      * @Return: void
@@ -87,16 +105,21 @@ public class Request {
      */
     public void parse(InputStream ins) {
         String requestMsg = readMsg(ins);
-        String type = parseType(requestMsg);
-        String uri = parseUri(requestMsg);
+        if(!requestMsg.equals("")){
+            String type = parseType(requestMsg);
+            String uri = parseUri(requestMsg);
 
-        if (type != null || uri != null) {
-            logger.trace("request : " + type + " " + uri);
-            setType(type);
-            setUri(uri);
+            if (type != null || uri != null) {
+                logger.trace("request : " + type + " " + uri);
+                setType(type);
+                setUri(uri);
+            }else{
+                setRequestValid(false);
+            }
         }else{
-            logger.warn("request info exception : type or uri exception(null)");
+            setRequestValid(false);
         }
+
     }
 
     /**

@@ -1,6 +1,7 @@
-package myApache;
+package myServer;
+
 import java.io.UnsupportedEncodingException;
-import	java.net.URLDecoder;
+import java.net.URLDecoder;
 
 import org.apache.log4j.Logger;
 
@@ -8,7 +9,7 @@ import java.io.File;
 
 
 /**
- * @packageName: myApache
+ * @packageName: myServer
  * @className: Handler
  * @Description: 处理机制
  * @author: auko
@@ -34,6 +35,7 @@ public class Handler {
         // 获取到uri
         String uri = req.getUri();
 
+
         // 若只有 "/" 则重定向到index.html, 即默认打开index.html
         if (uri != null && uri.length() == 1) {
             res.sendRedirect("/index.html");
@@ -47,7 +49,7 @@ public class Handler {
 
         // 如果存在 && 可读  则找出后缀名
         int index2 = url.lastIndexOf('.'); // 便于分割文件名与后缀
-        if (file.exists() && file.canRead()) {
+        if (file.exists() && file.canRead() && index2 > -1) {
             // ready to send
             readySend(file, url, index2);
         } else {
@@ -56,12 +58,12 @@ public class Handler {
             int index3 = url.lastIndexOf('/');
             String fileName;
             String decodedFileName = "";
-            if(index2 > index3){
+            if (index2 > index3) {
                 // 如果最后的 '.' 在最后的 '/' 之后, 则可以分割文件名
                 fileName = url.substring(index3, index2);
-                try{
+                try {
                     decodedFileName = URLDecoder.decode(fileName, "utf-8");
-                }catch(UnsupportedEncodingException e){
+                } catch (UnsupportedEncodingException e) {
                     logger.warn("unsupported encoding fileName : " + fileName);
                 }
                 String decodedUrl = url.substring(0, index3) + decodedFileName + url.substring(index2);
@@ -70,13 +72,21 @@ public class Handler {
                 if (file.exists() && file.canRead()) {
                     // ready to send
                     readySend(file, url, index2);
-                }else{
+                } else {
                     // 不存在 或者 不可读, 返回404
                     res.sendError();
                 }
-            }else{
-                // 最后都找不到, 就返回404
-                res.sendError();
+            } else {
+                // '.' 在 '/' 前面 说明该url缺少后缀, 则尝试在后面加上html
+                String addSuffixUrl = url + ".html";
+                file = new File(addSuffixUrl);
+                if (file.exists() && file.canRead()) {
+                    // 若加上后缀名后能找到文件, 则重定向到该文件
+                    res.sendRedirect(uri + ".html");
+                } else {
+                    // 否则返回404
+                    res.sendError();
+                }
             }
         }
     }
@@ -87,7 +97,7 @@ public class Handler {
      * @Author: auko on 2019-10-10 23:20
      * @Description: 移除query String, 返回url
      */
-    public String removeQueryString(String url){
+    public String removeQueryString(String url) {
         int index1 = url.indexOf('?');
         if (index1 > -1) {
             queryString = url.substring(index1 + 1);
@@ -103,7 +113,7 @@ public class Handler {
      * @Author: auko on 2019-10-10 23:23
      * @Description: 发送回复  index 为文件名与后缀名间的 '.'的下标
      */
-    public void readySend(File file, String url, int index){
+    public void readySend(File file, String url, int index) {
         String suffix = url.substring(index + 1);
         System.out.println("suffix : " + suffix);
         switch (suffix) {

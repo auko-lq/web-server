@@ -1,4 +1,4 @@
-package myApache;
+package myServer;
 
 import org.apache.log4j.Logger;
 
@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * @packageName: myApache
+ * @packageName: myServer
  * @className: Response
  * @Description: 回复类
  * @author: auko
@@ -79,7 +79,7 @@ public class Response {
             }
             output.write("\n".getBytes());
         } catch (IOException e) {
-            logger.error("response error");
+            logger.error("response error : " + e.getMessage());
         }
     }
 
