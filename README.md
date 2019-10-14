@@ -26,5 +26,5 @@ log文件相对路径待解决
 
 ## 流程简介
 
-![未命名文件](F:\学习\笔记\markdown\img\未命名文件.png)
+![流程简述](https://github.com/aukocharlie/web-server/blob/master/sources/%E6%B5%81%E7%A8%8B%E7%AE%80%E8%BF%B0.png)
 
