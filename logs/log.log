@@ -1,0 +1,6 @@
+2020-01-29 18:07:36 - [ INFO ]  > Context : E:\project\java\webServer/webapps
+2020-01-29 18:07:36 - [ INFO ]  > WebServer : start
+2020-01-29 18:07:36 - [ INFO ]  Server started : port 8889
+2020-01-29 18:07:36 - [ INFO ]  App running at: 
+2020-01-29 18:07:36 - [ INFO ]   - Local:   http://localhost:8889
+2020-01-29 18:07:36 - [ INFO ]   - Network: http://192.168.61.1:8889
