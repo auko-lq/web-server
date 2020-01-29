@@ -7,7 +7,7 @@ conf文件夹里的myServer.properties可以设置文件根目录与端口
 - 端口默认为8889端口
 
 ## 主入口
-MyServer.java
+com.aukocharlie.webserver.MainServer.java
 
 ## 依赖
 - log4j

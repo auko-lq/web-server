@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<webserver>
+    <!--  path: path of webapp  -->
+    <context>
+        <path>E:/project/java/webServer/webapps</path>
+        <port>8889</port>
+    </context>
+</webserver>
