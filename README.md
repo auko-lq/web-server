@@ -6,8 +6,8 @@
 
 `conf`文件夹内可配置：
 
-- 应用的位置，类似tomcat的context，默认为项目根目录的``webapps`文件夹
-- 端口号，默认为``8889`
+- 应用的位置，类似tomcat的context，默认为项目根目录的`webapps`文件夹
+- 端口号，默认为`8889`
 - 日志相关配置
 
 #### 运行
@@ -23,3 +23,9 @@
 #### 流程图
 
 ![流程图.png](https://github.com/aukocharlie/web-server/blob/master/sources/%E6%B5%81%E7%A8%8B%E5%9B%BE.png?raw=true)
+
+#### todo
+
+- [ ] 添加线程池
+- [ ] 使用`Netty`
+- [ ] 进行压测
