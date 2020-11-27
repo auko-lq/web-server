@@ -6,6 +6,7 @@ import com.aukocharlie.webserver.exception.InvalidQueryStringException;
 import com.aukocharlie.webserver.logger.LoggerTemplate;
 import com.aukocharlie.webserver.utils.URLUtils;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.*;
 import java.net.Socket;
@@ -13,6 +14,11 @@ import java.net.SocketException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author auko
+ * @date 2020-01-27 1:06
+ */
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class Request extends LoggerTemplate {
 
@@ -60,7 +66,7 @@ public class Request extends LoggerTemplate {
     public String byteToString(InputStream inputStream) throws IOException {
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
         BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-        StringBuffer message = new StringBuffer();
+        StringBuilder message = new StringBuilder();
         String line;
         while ((line = bufferedReader.readLine()) != null && !"".equals(line)) {
             message.append(line);

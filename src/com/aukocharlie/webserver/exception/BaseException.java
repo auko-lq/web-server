@@ -2,12 +2,17 @@ package com.aukocharlie.webserver.exception;
 
 import com.aukocharlie.webserver.enums.ExceptionLevelEnum;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 
 /**
  * 包装所有异常, 用于统一打日志
+ *
+ * @author auko
+ * @date 2020-01-27 1:06
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class BaseException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 

@@ -5,6 +5,9 @@ import java.net.URLDecoder;
 
 /**
  * URL 工具类
+ *
+ * @author auko
+ * @date 2020-01-27 1:06
  */
 public class URLUtils {
     /**

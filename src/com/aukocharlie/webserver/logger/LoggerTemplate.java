@@ -5,8 +5,9 @@ import org.apache.commons.logging.Log;
 
 /**
  * use Log4j by extends LoggerTemplate
- * @author : auko
- * @data 2020-01-22 16:03
+ *
+ * @author auko
+ * @date 2020-01-22 16:03
  */
 public class LoggerTemplate {
 

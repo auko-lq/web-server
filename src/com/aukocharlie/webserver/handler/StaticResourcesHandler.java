@@ -15,6 +15,9 @@ import java.io.File;
 
 /**
  * 静态资源处理器
+ *
+ * @author auko
+ * @date 2020-01-27 1:06
  */
 public class StaticResourcesHandler extends LoggerTemplate {
     private RequestFacade requestFacade;

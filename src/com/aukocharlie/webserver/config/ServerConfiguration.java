@@ -5,18 +5,17 @@ import com.aukocharlie.webserver.exception.BaseException;
 import com.aukocharlie.webserver.logger.LoggerTemplate;
 import com.aukocharlie.webserver.utils.XmlParser;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 
 import java.util.Iterator;
 
 /**
- * @packageName: com.aukocharlie.webserver
- * @className: Configuration
- * @Description:
- * @author: auko
- * @data 2020-01-22 15:45
+ * @author auko
+ * @date 2020-01-22 15:45
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class ServerConfiguration extends LoggerTemplate {
 

@@ -4,6 +4,9 @@ import java.util.stream.Stream;
 
 /**
  * 区分异常的等级, 对应不同日志级别
+ *
+ * @author auko
+ * @date 2020-01-27 1:06
  */
 public enum ExceptionLevelEnum {
     /**

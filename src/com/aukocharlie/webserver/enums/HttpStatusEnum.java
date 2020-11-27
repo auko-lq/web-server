@@ -4,6 +4,9 @@ import java.util.stream.Stream;
 
 /**
  * http 状态码枚举
+ *
+ * @author auko
+ * @date 2020-01-27 1:06
  */
 public enum HttpStatusEnum {
 

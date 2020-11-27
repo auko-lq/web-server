@@ -1,8 +1,8 @@
 package com.aukocharlie.webserver.constant;
 
 /**
- * @author: auko
- * @data 2020-01-28 18:53
+ * @author auko
+ * @date 2020-01-28 18:53
  */
 public class ResponseHeaders {
     public static final String ACCEPT_RANGES = "Accept-Ranges";

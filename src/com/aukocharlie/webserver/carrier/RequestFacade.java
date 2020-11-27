@@ -3,8 +3,8 @@ package com.aukocharlie.webserver.carrier;
 import java.util.Map;
 
 /**
- * @author: auko
- * @data 2020-01-27 22:07
+ * @author auko
+ * @date 2020-01-27 22:07
  */
 public class RequestFacade {
     private Request request;

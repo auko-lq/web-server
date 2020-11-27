@@ -3,8 +3,8 @@ package com.aukocharlie.webserver.exception;
 import com.aukocharlie.webserver.enums.ExceptionLevelEnum;
 
 /**
- * @author: auko
- * @data 2020-01-27 18:24
+ * @author auko
+ * @date 2020-01-27 18:24
  */
 public class StatusCodeUnmanagedException extends BaseException {
     public StatusCodeUnmanagedException(){

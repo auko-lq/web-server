@@ -4,6 +4,9 @@ import java.util.stream.Stream;
 
 /**
  * 文件后缀名枚举
+ *
+ * @author auko
+ * @date 2020-01-27 1:06
  */
 public enum FileSuffixEnum {
     HTML("html", "text/html"),

@@ -13,11 +13,10 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * @packageName: myServer
- * @className: com.aukocharlie.webserver.carrier.Response
- * @Description: 回复类
- * @author: auko
- * @data 2019-10-09 14:38
+ * 回复类
+ *
+ * @author auko
+ * @date 2019-10-09 14:38
  */
 public class Response extends LoggerTemplate {
     private OutputStream outputStream;

@@ -11,8 +11,8 @@ import com.aukocharlie.webserver.logger.LoggerTemplate;
 import java.io.File;
 
 /**
- * @author: auko
- * @data 2020-01-27 22:07
+ * @author auko
+ * @date 2020-01-27 22:07
  */
 public class ResponseFacade extends LoggerTemplate {
     private Response response;

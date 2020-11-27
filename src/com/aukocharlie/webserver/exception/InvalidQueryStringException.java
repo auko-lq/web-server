@@ -3,8 +3,8 @@ package com.aukocharlie.webserver.exception;
 import com.aukocharlie.webserver.enums.ExceptionLevelEnum;
 
 /**
- * @author: auko
- * @data 2020-01-28 16:42
+ * @author auko
+ * @date 2020-01-28 16:42
  */
 public class InvalidQueryStringException extends BaseException {
     public InvalidQueryStringException(){
